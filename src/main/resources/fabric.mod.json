@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "techreborn",
   "version": "${version}",
-  "name": "Tech Reborn",
+  "name": "Tech Reborn FIDIM",
   "icon": "assets/techreborn/icon.png",
-  "description": "A completely standalone tech mod including tools and machines to gather resources, process materials, and progress through the mod.",
+  "description": "A tech mod with minimal dependencies including tools and machines to gather resources, process materials, and progress through the mod.",
   "license": "MIT",
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/techreborn",
-    "sources": "https://github.com/TechReborn/TechReborn",
-    "issues": "https://github.com/TechReborn/TechReborn/issues"
+    "sources": "https://github.com/KonSola5/TechReborn",
+    "issues": "https://github.com/KonSola5/TechReborn/issues"
   },
   "environment": "*",
   "entrypoints": {
@@ -41,7 +41,8 @@
   "authors": [
     "Team Reborn",
     "modmuss50",
-    "drcrazy"
+    "drcrazy",
+	"KonSola5"
   ],
   "contributors": [
     "Gigabit101",

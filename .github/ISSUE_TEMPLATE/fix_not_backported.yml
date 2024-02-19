@@ -1,0 +1,27 @@
+name: Fix not backported
+description: Create an issue about a fix that was implemented by Tech Reborn, but not by Tech Reborn FIDIM.
+labels: [ fix not backported ]
+body:
+    -   type: input
+        attributes:
+            label: Minecraft version
+            placeholder: e.g. 1.18.2
+        validations:
+            required: true
+    -   type: input
+        attributes:
+            label: Tech Reborn version
+            placeholder: e.g. 5.2.2
+        validations:
+            required: true
+    -   type: textarea
+        attributes:
+            label: Which fix was not implemented?
+            description: You can link to the original Tech Reborn's issue tracker or commit history. |
+            Please note that fixes regarding machines/blocks/items that weren't introduced in later Minecraft versions won't be implemented.
+        validations:
+            required: true
+    -   type: textarea
+        attributes:
+            label: Additional context
+            description: Insert some additional context regarding the issue.

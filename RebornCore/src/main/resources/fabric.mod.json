@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "reborncore",
   "version": "${version}",
-  "name": "Reborn Core",
+  "name": "Reborn Core FIDIM",
   "icon": "assets/reborncore/icon.png",
-  "description": "Reborn Core is a library used for many of the Tech Reborn team's mods, including Tech Reborn, Quantum Storage, Fluxed Redstone, Hardcore Map Reset, and many more.",
+  "description": "Reborn Core is a library used for Tech Reborn. Or maybe addons. That's it.",
   "license": "MIT",
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/reborncore",
-    "sources": "https://github.com/TechReborn/RebornCore",
-    "issues": "https://github.com/TechReborn/RebornCore/issues"
+    "sources": "https://github.com/KonSola5/TechReborn",
+    "issues": "https://github.com/KonSola5/TechReborn/issues"
   },
   "environment": "*",
   "entrypoints": {
@@ -34,7 +34,8 @@
   "authors": [
     "Team Reborn",
     "modmuss50",
-    "drcrazy"
+    "drcrazy",
+	"KonSola5"
   ],
   "contributors": [
     "Gigabit101",

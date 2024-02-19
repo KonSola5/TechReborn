@@ -1,0 +1,27 @@
+name: Feature Request
+description: Request a QoL feature for Tech Reborn FIDIM.
+labels: [ enhancement ]
+body:
+    -   type: markdown
+        attributes:
+            value: |
+                Unlike Tech Reborn, I don't delegate to a tab that almost nobody sees. |
+                Please note, that this mod **won't** add new recipes or machines - so don't expect machine backports.
+    -   type: input
+        attributes:
+            label: Minecraft version (leave empty for any version)
+            placeholder: e.g. 1.18.2
+    -   type: textarea
+        attributes:
+            label: Describe the feature
+            description: What feature would you like being added to Tech Reborn FIDIM?
+        validations:
+            required: true
+    -   type: textarea
+        attributes:
+            label: Is the feature related to an issue?
+            description: If yes, then explain, what's the issue.
+    -   type: textarea
+        attributes:
+            label: Additional context
+            description: Insert some additional context regarding the issue.
