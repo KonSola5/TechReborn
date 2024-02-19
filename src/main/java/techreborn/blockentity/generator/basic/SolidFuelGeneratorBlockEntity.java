@@ -26,12 +26,17 @@ package techreborn.blockentity.generator.basic;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -39,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
+import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.screen.BuiltScreenHandlerProvider;
 import reborncore.common.screen.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
@@ -50,6 +56,7 @@ import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 
+import java.util.List;
 import java.util.Map;
 
 public class SolidFuelGeneratorBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop, InventoryProvider, BuiltScreenHandlerProvider {
@@ -210,5 +217,20 @@ public class SolidFuelGeneratorBlockEntity extends PowerAcceptorBlockEntity impl
 				.blockEntity(this).fuelSlot(0, 80, 54).energySlot(1, 8, 72).syncEnergyValue()
 				.sync(this::getBurnTime, this::setBurnTime)
 				.sync(this::getTotalBurnTime, this::setTotalBurnTime).addInventory().create(this, syncID);
+	}
+
+	@Override
+	public void addInfo(List<Text> info, boolean isReal, boolean hasData) {
+		super.addInfo(info, isReal, hasData);
+		info.add(
+			new TranslatableText("techreborn.tooltip.generationRate")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(TechRebornConfig.solidFuelGeneratorOutputAmount)) // :thinking:
+						.append(I18n.translate("techreborn.tooltip.perTick"))
+						.formatted(Formatting.GOLD)
+				)
+		);
 	}
 }

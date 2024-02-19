@@ -43,6 +43,9 @@ public class PowerSystem {
 	private static final long[] POWERS_OF_ONE_THOUSAND = IntStream.range(1, 4)
 		.mapToLong(i -> (long) Math.pow(1000, i)).toArray();
 
+	private static final long[] MAGNITUDE_THRESHOLDS = new long[] {10_000L, 1_000_000L, 1_000_000_000L, 1_000_000_000_000L};
+	// The first one is 10k intentionally to not turn "2048 E" into "2.05 kE"
+
 	public static String getLocalizedPower(double power) {
 
 		return getRoundedString(power, selectedSystem.abbreviation, true);
@@ -78,7 +81,7 @@ public class PowerSystem {
 		String toReturn = "";
 		int chosenMagnitude = -1; // -1 = no magnitude
 
-		for (long x : POWERS_OF_ONE_THOUSAND) {
+		for (long x : MAGNITUDE_THRESHOLDS) {
 			if (x <= value) {
 				chosenMagnitude++;
 			} else {

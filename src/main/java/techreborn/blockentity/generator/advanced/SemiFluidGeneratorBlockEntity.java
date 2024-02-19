@@ -25,9 +25,15 @@
 package techreborn.blockentity.generator.advanced;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.screen.BuiltScreenHandlerProvider;
 import reborncore.common.screen.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
@@ -37,6 +43,8 @@ import techreborn.blockentity.generator.BaseFluidGeneratorBlockEntity;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
+
+import java.util.List;
 
 public class SemiFluidGeneratorBlockEntity extends BaseFluidGeneratorBlockEntity implements BuiltScreenHandlerProvider {
 
@@ -67,5 +75,20 @@ public class SemiFluidGeneratorBlockEntity extends BaseFluidGeneratorBlockEntity
 				.sync(this::getTankAmount, this::setTankAmount)
 				.sync(tank)
 				.addInventory().create(this, syncID);
+	}
+
+	@Override
+	public void addInfo(List<Text> info, boolean isReal, boolean hasData) {
+		super.addInfo(info, isReal, hasData);
+		info.add(
+			new TranslatableText("techreborn.tooltip.generationRate")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(TechRebornConfig.semiFluidGeneratorEnergyPerTick))
+						.append(I18n.translate("techreborn.tooltip.perTick"))
+						.formatted(Formatting.GOLD)
+				)
+		);
 	}
 }

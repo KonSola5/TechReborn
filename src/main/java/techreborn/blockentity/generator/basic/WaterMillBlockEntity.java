@@ -26,8 +26,13 @@ package techreborn.blockentity.generator.basic;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -37,9 +42,12 @@ import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 
+import reborncore.common.powerSystem.PowerSystem;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
+
+import java.util.List;
 
 /**
  * Created by modmuss50 on 25/02/2016.
@@ -102,5 +110,22 @@ public class WaterMillBlockEntity extends PowerAcceptorBlockEntity implements IT
 	@Override
 	public ItemStack getToolDrop(PlayerEntity playerIn) {
 		return TRContent.Machine.WATER_MILL.getStack();
+	}
+
+	@Override
+	public void addInfo(List<Text> info, boolean isReal, boolean hasData) {
+		super.addInfo(info, isReal, hasData);
+		info.add(
+			new TranslatableText("techreborn.tooltip.generationRate")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(TechRebornConfig.waterMillEnergyMultiplier))
+						.append(I18n.translate("techreborn.tooltip.perTick"))
+						.formatted(Formatting.GOLD)
+				)
+				.append(" ")
+				.append(new TranslatableText("techreborn.tooltip.perWaterBlock").formatted(Formatting.GRAY))
+		);
 	}
 }

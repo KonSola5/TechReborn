@@ -268,9 +268,7 @@ public class CableBlockEntity extends BlockEntity
 			new TranslatableText("techreborn.tooltip.transferRate")
 				.formatted(Formatting.GRAY)
 				.append(": ")
-				.append(PowerSystem.getLocalizedPower(getCableType().transferRate))
-				.formatted(Formatting.GOLD)
-				.append("/t")
+				.append(new LiteralText(PowerSystem.getLocalizedPower(getCableType().transferRate)).append("/t").formatted(Formatting.GOLD))
 		);
 
 		info.add(

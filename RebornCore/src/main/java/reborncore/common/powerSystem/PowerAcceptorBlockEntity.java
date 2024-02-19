@@ -31,6 +31,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -111,7 +112,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	 *
 	 * @param amount {@code long} Amount to add
 	 */
-	public void addEnergy(long amount){
+	public void addEnergy(long amount) {
 		setStored(getEnergy() + amount);
 	}
 
@@ -130,7 +131,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	 *
 	 * @param amount {@code long} Amount of energy to use
 	 */
-	public void useEnergy(long amount){
+	public void useEnergy(long amount) {
 		if (getEnergy() > amount) {
 			setStored(getEnergy() - amount);
 		} else {
@@ -161,10 +162,10 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 		Inventory inventory = getOptionalInventory().get();
 
 		EnergyStorageUtil.move(
-				ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlots().get(slot)).find(EnergyStorage.ITEM),
-				getSideEnergyStorage(null),
-				Long.MAX_VALUE,
-				null
+			ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlots().get(slot)).find(EnergyStorage.ITEM),
+			getSideEnergyStorage(null),
+			Long.MAX_VALUE,
+			null
 		);
 	}
 
@@ -182,17 +183,17 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 			return;
 		}
 
-		if (getOptionalInventory().isEmpty()){
+		if (getOptionalInventory().isEmpty()) {
 			return;
 		}
 
 		Inventory inventory = getOptionalInventory().get();
 
 		EnergyStorageUtil.move(
-				getSideEnergyStorage(null),
-				ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlots().get(slot)).find(EnergyStorage.ITEM),
-				Long.MAX_VALUE,
-				null
+			getSideEnergyStorage(null),
+			ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlots().get(slot)).find(EnergyStorage.ITEM),
+			Long.MAX_VALUE,
+			null
 		);
 	}
 
@@ -229,7 +230,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	 * @param side {@link Direction} Machine side
 	 * @return {@code boolean} Returns true if machine can accept energy from side provided
 	 */
-	protected boolean canAcceptEnergy(@Nullable Direction side){
+	protected boolean canAcceptEnergy(@Nullable Direction side) {
 		return true;
 	}
 
@@ -239,7 +240,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	 * @param side {@link Direction} Machine side
 	 * @return {@code boolean} Returns true if machine can provide energy via particular side
 	 */
-	protected boolean canProvideEnergy(@Nullable Direction side){
+	protected boolean canProvideEnergy(@Nullable Direction side) {
 		return true;
 	}
 
@@ -249,7 +250,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	 *
 	 * @return {@code long} Size of additional energy buffer
 	 */
-	public long getExtraPowerStorage(){
+	public long getExtraPowerStorage() {
 		return extraPowerStorage;
 	}
 
@@ -290,7 +291,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	 * @return {@code long} Energy stored in block entity
 	 */
 	public long getEnergy() {
-	  return getStored();
+		return getStored();
 	}
 
 	/**
@@ -340,10 +341,10 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 
 		for (Direction side : Direction.values()) {
 			EnergyStorageUtil.move(
-					getSideEnergyStorage(side),
-					EnergyStorage.SIDED.find(world, pos.offset(side), side.getOpposite()),
-					Long.MAX_VALUE,
-					null
+				getSideEnergyStorage(side),
+				EnergyStorage.SIDED.find(world, pos.offset(side), side.getOpposite()),
+				Long.MAX_VALUE,
+				null
 			);
 		}
 
@@ -390,7 +391,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 
 	public void setStored(long amount) {
 		energyContainer.amount = amount;
-		if(checkOverfill){
+		if (checkOverfill) {
 			energyContainer.amount = Math.max(Math.min(energyContainer.amount, getMaxStoredPower()), 0);
 		}
 		markDirty();
@@ -404,7 +405,7 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 		if (!isActive(RedstoneConfiguration.POWER_IO)) {
 			return 0;
 		}
-		if(!canProvideEnergy(face)) {
+		if (!canProvideEnergy(face)) {
 			return 0;
 		}
 		if (this.extraTier > 0) {
@@ -456,60 +457,68 @@ public abstract class PowerAcceptorBlockEntity extends MachineBaseBlockEntity im
 	public void addInfo(List<Text> info, boolean isReal, boolean hasData) {
 		if (!isReal && hasData) {
 			info.add(
-					new TranslatableText("reborncore.tooltip.energy")
-							.formatted(Formatting.GRAY)
-							.append(": ")
-							.append(PowerSystem.getLocalizedPower(getStored()))
+				new TranslatableText("reborncore.tooltip.energy")
+					.formatted(Formatting.GRAY)
+					.append(": ")
+					.append(
+						new LiteralText(PowerSystem.getLocalizedPower(getStored()))
 							.formatted(Formatting.GOLD)
+					)
 			);
 		}
 
 		info.add(
-				new TranslatableText("reborncore.tooltip.energy.maxEnergy")
+			new TranslatableText("reborncore.tooltip.energy.maxEnergy")
 				.formatted(Formatting.GRAY)
 				.append(": ")
-				.append(PowerSystem.getLocalizedPower(getMaxStoredPower()))
-				.formatted(Formatting.GOLD)
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(getMaxStoredPower()))
+						.formatted(Formatting.GOLD)
+				)
 		);
 
 		if (getMaxInput(null) != 0) {
 			info.add(
-					new TranslatableText("reborncore.tooltip.energy.inputRate")
-							.formatted(Formatting.GRAY)
-							.append(": ")
-							.append(PowerSystem.getLocalizedPower(getMaxInput(null)))
+				new TranslatableText("reborncore.tooltip.energy.inputRate")
+					.formatted(Formatting.GRAY)
+					.append(": ")
+					.append(
+						new LiteralText(PowerSystem.getLocalizedPower(getMaxInput(null)))
 							.formatted(Formatting.GOLD)
+							.append(new TranslatableText("techreborn.tooltip.perTick").formatted(Formatting.GOLD))
+					)
 			);
 		}
 		if (getMaxOutput(null) > 0) {
 			info.add(
-					new TranslatableText("reborncore.tooltip.energy.outputRate")
-							.formatted(Formatting.GRAY)
-							.append(": ")
-							.append(PowerSystem.getLocalizedPower(getMaxOutput(null)))
-							.formatted(Formatting.GOLD)
+				new TranslatableText("reborncore.tooltip.energy.outputRate")
+					.formatted(Formatting.GRAY)
+					.append(": ")
+					.append(new LiteralText(
+						PowerSystem.getLocalizedPower(getMaxOutput(null)))
+						.formatted(Formatting.GOLD))
+					.append(new TranslatableText("techreborn.tooltip.perTick").formatted(Formatting.GOLD))
 			);
 		}
 
 		info.add(
-				new TranslatableText("reborncore.tooltip.energy.tier")
-						.formatted(Formatting.GRAY)
-						.append(": ")
-						.append(StringUtils.toFirstCapitalAllLowercase(getTier().toString()))
-						.formatted(Formatting.GOLD)
+			new TranslatableText("reborncore.tooltip.energy.tier")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(new LiteralText(StringUtils.toFirstCapitalAllLowercase(getTier().toString()))
+					.formatted(Formatting.GOLD))
 		);
 
 		if (isReal) {
 			info.add(
-					new TranslatableText("reborncore.tooltip.energy.change")
-							.formatted(Formatting.GRAY)
-							.append(": ")
-							.append(PowerSystem.getLocalizedPower(powerChange))
-							.append("/t")
-							.formatted(Formatting.GOLD)
+				new TranslatableText("reborncore.tooltip.energy.change")
+					.formatted(Formatting.GRAY)
+					.append(": ")
+					.append(new LiteralText(PowerSystem.getLocalizedPower(powerChange))
+						.formatted(Formatting.GOLD))
+					.append(new TranslatableText("techreborn.tooltip.perTick").formatted(Formatting.GOLD))
 			);
 		}
-
 
 
 		super.addInfo(info, isReal, hasData);

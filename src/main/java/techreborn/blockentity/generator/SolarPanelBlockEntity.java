@@ -24,9 +24,9 @@
 
 package techreborn.blockentity.generator;
 
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -39,19 +39,21 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.common.screen.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.powerSystem.RcEnergyTier;
+import reborncore.common.screen.BuiltScreenHandler;
+import reborncore.common.screen.BuiltScreenHandlerProvider;
 import reborncore.common.util.StringUtils;
 import techreborn.blocks.generator.BlockSolarPanel;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 import techreborn.init.TRContent.SolarPanels;
+
+import java.util.List;
 
 public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop, BuiltScreenHandlerProvider {
 
@@ -87,7 +89,10 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 	// Setters/getters that provide boolean interface to underlying generating int; something about
 	// screen auto-sync REQUIRES an integer value (booleans don't get transmitted?!), so resorted to
 	// this ugly approach
-	public boolean isGenerating() { return generating; }
+	public boolean isGenerating() {
+		return generating;
+	}
+
 	private void setIsGenerating(boolean isGenerating) {
 		if (isGenerating != isGenerating()) {
 			// Update block state if necessary
@@ -122,8 +127,8 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 		// Ok, we are actively generating power, but check for a few conditions that would restrict
 		// the generation to minimal production...
 		if (!world.getDimension().hasSkyLight() || // No light source in dimension (e.g. nether or end)
-			  (skyAngle > 0.25 && skyAngle < 0.75) || // Light source is below horizon
-			  (world.isRaining() || world.isThundering())) { // Weather is present
+			(skyAngle > 0.25 && skyAngle < 0.75) || // Light source is below horizon
+			(world.isRaining() || world.isThundering())) { // Weather is present
 			return getPanel().generationRateN;
 		}
 
@@ -139,7 +144,7 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 			multiplier = (0.25f - skyAngle) / 0.25f;
 		}
 
-		return (int)Math.ceil(getPanel().generationRateN + (dayNightRange * multiplier));
+		return (int) Math.ceil(getPanel().generationRateN + (dayNightRange * multiplier));
 	}
 
 
@@ -174,7 +179,9 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 	}
 
 	@Override
-	protected boolean canAcceptEnergy(@Nullable Direction side) { return false; }
+	protected boolean canAcceptEnergy(@Nullable Direction side) {
+		return false;
+	}
 
 	@Override
 	public long getBaseMaxOutput() {
@@ -217,43 +224,45 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 		}
 
 		info.add(
-				new TranslatableText("reborncore.tooltip.energy.maxEnergy")
-						.formatted(Formatting.GRAY)
-						.append(": ")
-						.append(
-								new LiteralText(PowerSystem.getLocalizedPower(getMaxStoredPower()))
-										.formatted(Formatting.GOLD)
-						)
+			new TranslatableText("reborncore.tooltip.energy.maxEnergy")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(getMaxStoredPower()))
+						.formatted(Formatting.GOLD)
+				)
 		);
 
 		info.add(
-				new TranslatableText("techreborn.tooltip.generationRate.day")
-						.formatted(Formatting.GRAY)
-						.append(": ")
-						.append(
-								new LiteralText(PowerSystem.getLocalizedPower(panel.generationRateD))
-										.formatted(Formatting.GOLD)
-						)
+			new TranslatableText("techreborn.tooltip.generationRate.day")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(panel.generationRateD))
+						.append(I18n.translate("techreborn.tooltip.perTick"))
+						.formatted(Formatting.GOLD)
+				)
 		);
 
 		info.add(
-				new TranslatableText("techreborn.tooltip.generationRate.night")
-						.formatted(Formatting.GRAY)
-						.append(": ")
-						.append(
-								new LiteralText(PowerSystem.getLocalizedPower(panel.generationRateN))
-										.formatted(Formatting.GOLD)
-						)
+			new TranslatableText("techreborn.tooltip.generationRate.night")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(panel.generationRateN))
+						.append(I18n.translate("techreborn.tooltip.perTick"))
+						.formatted(Formatting.GOLD)
+				)
 		);
 
 		info.add(
-				new TranslatableText("reborncore.tooltip.energy.tier")
-						.formatted(Formatting.GRAY)
-						.append(": ")
-						.append(
-								new LiteralText(StringUtils.toFirstCapitalAllLowercase(getTier().toString()))
-										.formatted(Formatting.GOLD)
-						)
+			new TranslatableText("reborncore.tooltip.energy.tier")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(StringUtils.toFirstCapitalAllLowercase(getTier().toString()))
+						.formatted(Formatting.GOLD)
+				)
 		);
 	}
 
@@ -283,8 +292,8 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 	@Override
 	public BuiltScreenHandler createScreenHandler(int syncID, final PlayerEntity player) {
 		return new ScreenHandlerBuilder("solar_panel").player(player.getInventory()).inventory().hotbar().addInventory()
-				.blockEntity(this).syncEnergyValue()
-				.sync(this::isGenerating, this::setIsGenerating)
-				.addInventory().create(this, syncID);
+			.blockEntity(this).syncEnergyValue()
+			.sync(this::isGenerating, this::setIsGenerating)
+			.addInventory().create(this, syncID);
 	}
 }

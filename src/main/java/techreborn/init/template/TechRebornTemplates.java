@@ -47,17 +47,17 @@ public class TechRebornTemplates {
 
 	public static void init() {
 		CommandRegistrationCallback.EVENT.register((dispatcher, b) -> dispatcher.register(
-				literal("techreborn")
-						.then(literal("template")
-								.requires(source -> source.hasPermissionLevel(3))
-								.requires(source -> FabricLoader.getInstance().isDevelopmentEnvironment())
-								.then(literal("generate")
-										.then(
-												argument("path", greedyString())
-														.executes(TechRebornTemplates::process)
-										)
-								)
+			literal("techreborn")
+				.then(literal("template")
+					.requires(source -> source.hasPermissionLevel(3))
+					.requires(source -> FabricLoader.getInstance().isDevelopmentEnvironment())
+					.then(literal("generate")
+						.then(
+							argument("path", greedyString())
+								.executes(TechRebornTemplates::process)
 						)
+					)
+				)
 		));
 	}
 
@@ -80,8 +80,8 @@ public class TechRebornTemplates {
 
 	private static void process(TemplateProcessor processor) throws IOException {
 		processor.processSimpleBlocks("storage_blocks", Arrays.stream(TRContent.StorageBlocks.values())
-				.map(TRContent.StorageBlocks::getBlock)
-				.collect(Collectors.toList())
+			.map(TRContent.StorageBlocks::getBlock)
+			.collect(Collectors.toList())
 		);
 	}
 

@@ -30,6 +30,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -40,9 +44,12 @@ import reborncore.api.IToolDrop;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
+import reborncore.common.powerSystem.PowerSystem;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
+
+import java.util.List;
 
 public class LightningRodBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop {
 
@@ -142,5 +149,19 @@ public class LightningRodBlockEntity extends PowerAcceptorBlockEntity implements
 	@Override
 	public ItemStack getToolDrop(PlayerEntity playerIn) {
 		return TRContent.Machine.LIGHTNING_ROD.getStack();
+	}
+
+	@Override
+	public void addInfo(List<Text> info, boolean isReal, boolean hasData) {
+		super.addInfo(info, isReal, hasData);
+		info.add(
+			new TranslatableText("techreborn.tooltip.generationRate")
+				.formatted(Formatting.GRAY)
+				.append(": ")
+				.append(
+					new LiteralText(PowerSystem.getLocalizedPower(TechRebornConfig.lightningRodBaseEnergyStrike))
+						.formatted(Formatting.GOLD)
+				)
+		);
 	}
 }

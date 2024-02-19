@@ -37,6 +37,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import reborncore.RebornCore;
@@ -76,27 +77,21 @@ public class StackToolTipHandler implements ItemTooltipCallback {
 
 				double inputRate = energyItem.getEnergyMaxInput();
 				double outputRate = energyItem.getEnergyMaxOutput();
-				LiteralText line3 = new LiteralText("");
+				MutableText line3 = new LiteralText("").formatted(Formatting.GRAY);
 				if (inputRate != 0 && inputRate == outputRate){
-					line3.append(I18n.translate("techreborn.tooltip.transferRate"));
-					line3.append(" : ");
-					line3.formatted(Formatting.GRAY);
-					line3.append(PowerSystem.getLocalizedPower(inputRate));
-					line3.formatted(Formatting.GOLD);
+					line3.append(I18n.translate("reborncore.tooltip.transferRate"));
+					line3.append(": ");
+					line3.append(new LiteralText(PowerSystem.getLocalizedPower(inputRate)).formatted(Formatting.GOLD));
 				}
 				else if(inputRate != 0){
 					line3.append(I18n.translate("reborncore.tooltip.energy.inputRate"));
-					line3.append(" : ");
-					line3.formatted(Formatting.GRAY);
-					line3.append(PowerSystem.getLocalizedPower(inputRate));
-					line3.formatted(Formatting.GOLD);
+					line3.append(": ");
+					line3.append(new LiteralText(PowerSystem.getLocalizedPower(inputRate)).formatted(Formatting.GOLD));
 				}
 				else if (outputRate !=0){
 					line3.append(I18n.translate("reborncore.tooltip.energy.outputRate"));
-					line3.append(" : ");
-					line3.formatted(Formatting.GRAY);
-					line3.append(PowerSystem.getLocalizedPower(outputRate));
-					line3.formatted(Formatting.GOLD);
+					line3.append(": ");
+					line3.append(new LiteralText(PowerSystem.getLocalizedPower(outputRate)).formatted(Formatting.GOLD));
 				}
 				tooltipLines.add(3, line3);
 			}
@@ -124,9 +119,9 @@ public class StackToolTipHandler implements ItemTooltipCallback {
 		}
 	}
 
-	private int percentage(double CurrentValue, double MaxValue) {
-		if (CurrentValue == 0)
+	private int percentage(double currentValue, double maxValue) {
+		if (currentValue == 0)
 			return 0;
-		return (int) ((CurrentValue * 100.0f) / MaxValue);
+		return (int) ((currentValue * 100.0f) / maxValue);
 	}
 }

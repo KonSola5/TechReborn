@@ -27,8 +27,10 @@ package techreborn.blockentity.transformers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -149,29 +151,29 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 				new TranslatableText("reborncore.tooltip.energy.inputRate")
 						.formatted(Formatting.GRAY)
 						.append(": ")
-						.append(PowerSystem.getLocalizedPower(getMaxInput(null)))
-						.formatted(Formatting.GOLD)
+						.append(new LiteralText(PowerSystem.getLocalizedPower(getMaxInput(null)))
+							.append(I18n.translate("techreborn.tooltip.perTick"))
+							.formatted(Formatting.GOLD))
 		);
 		info.add(
 				new TranslatableText("techreborn.tooltip.input_tier")
 						.formatted(Formatting.GRAY)
 						.append(": ")
-						.append(StringUtils.toFirstCapitalAllLowercase(inputTier.toString()))
-						.formatted(Formatting.GOLD)
+						.append(new LiteralText(StringUtils.toFirstCapitalAllLowercase(inputTier.toString())).formatted(Formatting.GOLD))
 		);
 		info.add(
 				new TranslatableText("reborncore.tooltip.energy.outputRate")
 						.formatted(Formatting.GRAY)
 						.append(": ")
-						.append(PowerSystem.getLocalizedPower(getMaxOutput(null)))
-						.formatted(Formatting.GOLD)
+						.append(new LiteralText(PowerSystem.getLocalizedPower(getMaxOutput(null)))
+							.append(I18n.translate("techreborn.tooltip.perTick"))
+							.formatted(Formatting.GOLD))
 		);
 		info.add(
 				new TranslatableText("techreborn.tooltip.output_tier")
 						.formatted(Formatting.GRAY)
 						.append(": ")
-						.append(StringUtils.toFirstCapitalAllLowercase(outputTier.toString()))
-						.formatted(Formatting.GOLD)
+						.append(new LiteralText(StringUtils.toFirstCapitalAllLowercase(outputTier.toString())).formatted(Formatting.GOLD))
 		);
 	}
 }
