@@ -419,8 +419,9 @@ public class AutoCraftingTableBlockEntity extends PowerAcceptorBlockEntity
 	// MachineBaseBlockEntity
 	@Override
 	public boolean canBeUpgraded() {
-		return false;
+		return true;
 	}
+	// TODO: This is not enough, make Auto Crafting Table upgradeable.
 
 	@Override
 	public boolean hasSlotConfig() {

@@ -25,7 +25,7 @@ import java.util.UUID;
  * @see techreborn.blockentity.machine.tier0.block.BlockBreakerBlockEntity
  */
 public class BlockBreakerProcessor extends BlockBreakerNbt implements BlockProcessor {
-
+// TODO: Try to fix being able to get stuff from "fake slots"
 	private UUID processorId = UUID.randomUUID();
 	private BlockProcessable processable;
 

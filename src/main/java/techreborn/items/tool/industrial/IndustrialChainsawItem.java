@@ -75,12 +75,12 @@ public class IndustrialChainsawItem extends ChainsawItem {
 	}
 
 	private void findWood(World world, BlockPos pos, List<BlockPos> wood, List<BlockPos> leaves) {
-		//Limit the amount of wood to be broken to 64 blocks.
-		if (wood.size() >= 64) {
+		//Limit the amount of wood to be broken to 256 blocks. - There are trees that contain more than 64 logs.
+		if (wood.size() >= 256) {
 			return;
 		}
-		//Search 150 leaves for wood
-		if (leaves.size() >= 150) {
+		//Search 600 leaves for wood
+		if (leaves.size() >= 600) {
 			return;
 		}
 		for (Direction facing : SEARCH_ORDER) {

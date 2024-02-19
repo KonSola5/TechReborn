@@ -90,7 +90,7 @@ public class DynamicCellItem extends Item implements ItemFluidInfo {
 	}
 
 	public static ItemStack getCellWithFluid(Fluid fluid, int stackSize) {
-		Validate.notNull(fluid);
+		Validate.notNull(fluid, "Can't get cell with NULL fluid");;
 		ItemStack stack = new ItemStack(TRContent.CELL);
 		ItemNBTHelper.getNBT(stack).putString("fluid", Registry.FLUID.getId(fluid).toString());
 		stack.setCount(stackSize);
@@ -214,9 +214,8 @@ public class DynamicCellItem extends Item implements ItemFluidInfo {
 				return TypedActionResult.success(resultStack, world.isClient());
 			}
 		} else {
-			BlockState placeState = world.getBlockState(placePos);
-			if (placeState.canBucketPlace(containedFluid)) {
-				placeFluid(player, world, placePos, hitResult, stack);
+			placePos = hitState.getBlock() instanceof FluidFillable ? hitPos : placePos;
+			if (this.placeFluid(player, world, placePos, hitResult, stack)) {
 
 				if (stack.getCount() == 1) {
 					stack = getEmpty();

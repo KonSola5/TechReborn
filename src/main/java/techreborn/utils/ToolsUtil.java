@@ -44,6 +44,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import static techreborn.items.tool.JackhammerItem.SKIPPED_BY_JACKHAMMER;
+
 /**
  * @author drcrazy
  */
@@ -179,15 +181,6 @@ public class ToolsUtil {
 		if (blockState.getMaterial().isLiquid()) {
 			return true;
 		}
-		if (blockState.getBlock() instanceof OreBlock) {
-			return true;
-		}
-		if (blockState.isOf(Blocks.OBSIDIAN) || blockState.isOf(Blocks.CRYING_OBSIDIAN)){
-			return true;
-		}
-		if (blockState.isOf(Blocks.ANCIENT_DEBRIS)){
-			return true;
-		}
-		return blockState.getBlock() instanceof RedstoneOreBlock;
+		return (blockState.isIn(SKIPPED_BY_JACKHAMMER));
 	}
 }

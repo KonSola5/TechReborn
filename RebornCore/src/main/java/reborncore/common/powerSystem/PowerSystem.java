@@ -24,17 +24,24 @@
 
 package reborncore.common.powerSystem;
 
+import net.minecraft.text.LiteralText;
 import reborncore.RebornCore;
 import reborncore.common.RebornCoreConfig;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 public class PowerSystem {
 	private static EnergySystem selectedSystem = EnergySystem.values()[0];
 
 	private static final char[] magnitude = new char[] { 'k', 'M', 'G', 'T' };
+
+	private static final long[] POWERS_OF_ONE_THOUSAND = IntStream.range(1, 4)
+		.mapToLong(i -> (long) Math.pow(1000, i)).toArray();
 
 	public static String getLocalizedPower(double power) {
 
@@ -66,70 +73,40 @@ public class PowerSystem {
 		return formatter.format(power) + " " + units;
 	}
 
-	private static String getRoundedString(double originalValue, String units, boolean doFormat) {
-		String ret = "";
-		double value = 0f;
-		int i = 0;
-		boolean showMagnitude = true;
-		double euValue = originalValue;
-		if (euValue < 0) {
-			ret = "-";
-			euValue = -euValue;
-		}
+	// Only used to power, rounded to 2 decimal places instead of 1.
+	private static String getRoundedString(double value, String units, boolean doFormat) {
+		String toReturn = "";
+		int chosenMagnitude = -1; // -1 = no magnitude
 
-		if (euValue < 1000) {
-			doFormat = false;
-			showMagnitude = false;
-			value = euValue;
-		} else if (euValue >= 1000) {
-			for (i = 0; ; i++) {
-				if (euValue < 10000 && euValue % 1000 >= 100) {
-					value = Math.floor(euValue / 1000);
-					value += ((float) euValue % 1000) / 1000;
-					break;
-				}
-				euValue /= 1000;
-				if (euValue < 1000) {
-					value = euValue;
-					break;
-				}
+		for (long x : POWERS_OF_ONE_THOUSAND) {
+			if (x <= value) {
+				chosenMagnitude++;
+			} else {
+				break;
 			}
 		}
 
-		if (i > 10) {
-			doFormat = false;
-			showMagnitude = false;
-		} else if (i > 3) {
-			value = originalValue;
-			showMagnitude = false;
-		}
+		if (chosenMagnitude > POWERS_OF_ONE_THOUSAND.length) {
+			toReturn += "∞";
+		} else {
+			if (chosenMagnitude != -1) {
+				value /= POWERS_OF_ONE_THOUSAND[chosenMagnitude]; // Get the value to be joint with the magnitude
+			}
+			DecimalFormatSymbols symbols = new DecimalFormatSymbols(RebornCore.locale); // Always use dot
+			NumberFormat formatter = new DecimalFormat("##.##", symbols); // Round to 2 decimal places
 
-		if (doFormat){
-			DecimalFormat formatter = (DecimalFormat) DecimalFormat.getInstance(RebornCore.locale);
-			ret += formatter.format(value);
-			int idx = ret.lastIndexOf(formatter.getDecimalFormatSymbols().getDecimalSeparator());
-			if (idx > 0){
-				ret = ret.substring(0, idx + 2);
-			}
-		}
-		else {
-			if (i>10){
-				ret += "∞";
-			}
-			else {
-				ret += value;
-			}
-		}
+			toReturn += formatter.format(value);
 
-		if (showMagnitude) {
-			ret += magnitude[i];
+			if (chosenMagnitude != -1) {
+				toReturn += magnitude[chosenMagnitude];
+			}
 		}
 
 		if (!units.equals("")) {
-			ret += " " + units;
+			toReturn += " " + units;
 		}
 
-		return ret;
+		return toReturn;
 	}
 
 	public static EnergySystem getDisplayPower() {

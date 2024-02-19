@@ -31,6 +31,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -104,6 +105,26 @@ public class IndustrialDrillItem extends DrillItem {
 			return new TypedActionResult<>(ActionResult.SUCCESS, stack);
 		}
 		return new TypedActionResult<>(ActionResult.PASS, stack);
+	}
+
+	@Override
+	public boolean isSuitableFor(BlockState blockIn) {
+		if(blockIn == null){
+			return false;
+		}
+
+		if (Items.NETHERITE_PICKAXE.isSuitableFor(blockIn)) {
+			return true;
+		}
+		if (Items.NETHERITE_SHOVEL.isSuitableFor(blockIn)) {
+			return true;
+		}
+		// More checks to fix #2225
+		// Pass stack to fix #2348
+		if (Items.NETHERITE_SHOVEL.getMiningSpeedMultiplier(new ItemStack(Items.DIAMOND_SHOVEL), blockIn) > 1.0f) {
+			return true;
+		}
+		return Items.NETHERITE_PICKAXE.getMiningSpeedMultiplier(new ItemStack(Items.DIAMOND_PICKAXE), blockIn) > 1.0f;
 	}
 
 	@Override

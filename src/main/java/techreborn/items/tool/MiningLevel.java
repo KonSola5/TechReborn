@@ -28,7 +28,8 @@ public enum MiningLevel {
 	WOOD(0),
 	STONE(1),
 	IRON(2),
-	DIAMOND(3);
+	DIAMOND(3),
+	NETHERITE(4);
 
 	public final int intLevel;
 

@@ -35,8 +35,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import reborncore.api.IToolHandler;
 import reborncore.common.powerSystem.RcEnergyItem;
 import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.ItemUtils;
@@ -48,7 +50,8 @@ import techreborn.init.TRToolMaterials;
 import techreborn.items.tool.MiningLevel;
 import techreborn.utils.InitUtils;
 
-public class OmniToolItem extends MiningToolItem implements RcEnergyItem {
+// Implemented Thepigcat76's Omni Tool ability to Wrench stuff
+public class OmniToolItem extends MiningToolItem implements RcEnergyItem, IToolHandler {
 	public static final TagKey<Block> OMNI_TOOL_MINEABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(TechReborn.MOD_ID, "mineable/omni_tool"));
 
 	public final int maxCharge = TechRebornConfig.omniToolCharge;
@@ -152,5 +155,15 @@ public class OmniToolItem extends MiningToolItem implements RcEnergyItem {
 	@Override
 	public RcEnergyTier getTier() {
 		return RcEnergyTier.EXTREME;
+	}
+
+	@Override
+	public boolean handleTool(ItemStack stack, BlockPos pos, World world, PlayerEntity player, Direction side, boolean damage) {
+		if (!player.getWorld().isClient && this.getStoredEnergy(stack) >= 5.0) {
+			this.tryUseEnergy(stack, 5);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -27,8 +27,14 @@ package techreborn.datagen.tags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.mininglevel.v1.FabricMineableTags
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
+import net.minecraft.block.Blocks
 import net.minecraft.tag.BlockTags
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.BuiltinRegistries
 import techreborn.items.tool.DrillItem
+import techreborn.items.tool.JackhammerItem
 import techreborn.items.tool.industrial.OmniToolItem
 
 class TRBlockTagProvider extends FabricTagProvider.BlockTagProvider {
@@ -48,5 +54,11 @@ class TRBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 			.addOptionalTag(BlockTags.AXE_MINEABLE.id())
 			.addOptionalTag(FabricMineableTags.SHEARS_MINEABLE.id())
 			.addOptionalTag(FabricMineableTags.SWORD_MINEABLE.id())
+
+		getOrCreateTagBuilder(JackhammerItem.SKIPPED_BY_JACKHAMMER)
+			.addOptionalTag(ConventionalBlockTags.ORES.id())
+			.addOptional(new Identifier("minecraft:ancient_debris"))
+			.addOptional(new Identifier("minecraft:obsidian"))
+			.addOptional(new Identifier("minecraft:crying_obsidian"))
 	}
 }

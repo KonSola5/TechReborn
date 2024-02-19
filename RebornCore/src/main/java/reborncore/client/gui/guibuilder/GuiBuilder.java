@@ -468,7 +468,7 @@ public class GuiBuilder {
 		}
 	}
 
-	// TODO: change to double
+	// This does not need decimal E/t since ADSU does not have any means to edit that.
 
 	/**
 	 * Draws energy output value and icon
@@ -484,7 +484,7 @@ public class GuiBuilder {
 		Text text = new LiteralText(PowerSystem.getLocalizedPowerNoSuffix(maxOutput))
 				.append(SPACE_TEXT)
 				.append(PowerSystem.getDisplayPower().abbreviation)
-				.append("\t");
+				.append("/t");
 
 		int width = gui.getTextRenderer().getWidth(text);
 		gui.drawText(matrixStack, text, x - width - 2, y + 5, 0, layer);

@@ -38,7 +38,7 @@ import techreborn.TechReborn;
  * Created by modmuss50 on 26/02/2016.
  */
 public class WrenchItem extends Item implements IToolHandler {
-
+	// TODO: Make the Wrench compatible with other mods.
 	public WrenchItem() {
 		super(new Item.Settings().group(TechReborn.ITEMGROUP).maxCount(1));
 	}

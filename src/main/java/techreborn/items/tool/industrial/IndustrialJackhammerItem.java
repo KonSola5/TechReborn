@@ -63,13 +63,14 @@ public class IndustrialJackhammerItem extends JackhammerItem implements MultiBlo
 	}
 
 	// Cycle Inactive, Active 3*3 and Active 5*5
+	// TODO: Use a translation.
 	private void switchAOE(ItemStack stack, int cost, int messageId, Entity entity) {
 		ItemUtils.checkActive(stack, cost, messageId, entity);
 		if (!ItemUtils.isActive(stack)) {
 			ItemUtils.switchActive(stack, cost, messageId, entity);
 			stack.getOrCreateNbt().putBoolean("AOE5", false);
 			if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
-				ChatUtils.sendNoSpamMessage(serverPlayerEntity, messageId, new TranslatableText("techreborn.message.setTo").formatted(Formatting.GRAY).append(" ").append(new LiteralText("3*3").formatted(Formatting.GOLD)));
+				ChatUtils.sendNoSpamMessage(serverPlayerEntity, messageId, new TranslatableText("techreborn.message.setTo").formatted(Formatting.GRAY).append(" ").append(new LiteralText("Active: 3ˣ3").formatted(Formatting.GOLD)));
 			}
 		} else {
 			if (isAOE5(stack)) {
@@ -78,12 +79,13 @@ public class IndustrialJackhammerItem extends JackhammerItem implements MultiBlo
 			} else {
 				stack.getOrCreateNbt().putBoolean("AOE5", true);
 				if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
-					ChatUtils.sendNoSpamMessage(serverPlayerEntity, messageId, new TranslatableText("techreborn.message.setTo").formatted(Formatting.GRAY).append(" ").append(new LiteralText("5*5").formatted(Formatting.GOLD)));
+					ChatUtils.sendNoSpamMessage(serverPlayerEntity, messageId, new TranslatableText("techreborn.message.setTo").formatted(Formatting.GRAY).append(" ").append(new LiteralText("Active: 5ˣ5").formatted(Formatting.GOLD)));
 				}
 			}
 		}
 	}
 
+	// TODO: Unhardcode Jackhammer.
 	private boolean shouldBreak(World worldIn, BlockPos originalPos, BlockPos pos, ItemStack stack) {
 		if (originalPos.equals(pos)) {
 			return false;
@@ -149,9 +151,9 @@ public class IndustrialJackhammerItem extends JackhammerItem implements MultiBlo
 		ItemUtils.buildActiveTooltip(stack, tooltip);
 		if (ItemUtils.isActive(stack)) {
 			if (isAOE5(stack)) {
-				tooltip.add(new LiteralText("5*5").formatted(Formatting.RED));
+				tooltip.add(new LiteralText("5ˣ5").formatted(Formatting.RED));
 			} else {
-				tooltip.add(new LiteralText("3*3").formatted(Formatting.RED));
+				tooltip.add(new LiteralText("3ˣ3").formatted(Formatting.RED));
 			}
 		}
 	}

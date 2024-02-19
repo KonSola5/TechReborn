@@ -26,7 +26,9 @@ package techreborn.blockentity.machine.tier0.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import reborncore.client.screen.builder.BlockEntityScreenHandlerBuilder;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.screen.BuiltScreenHandler;
@@ -72,6 +74,14 @@ public class BlockBreakerBlockEntity extends AbstractBlockBlockEntity implements
 			processor.syncNbt(builder);
 
 			return builder.addInventory().create(this, syncID);
+	}
+
+	// Temporary "fix", ideal fix would not involve putting the item in any inventory.
+	@Override
+	public void onBreak(World world, PlayerEntity playerEntity, BlockPos blockPos, BlockState blockState) {
+		super.onBreak(world, playerEntity, blockPos, blockState);
+
+		this.inventory.setStack(FAKE_INPUT_SLOT, ItemStack.EMPTY);
 	}
 
 	public BlockBreakerProcessor getProcessor() {

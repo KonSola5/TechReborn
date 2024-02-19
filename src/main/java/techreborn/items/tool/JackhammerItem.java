@@ -24,14 +24,18 @@
 
 package techreborn.items.tool;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import reborncore.common.powerSystem.RcEnergyItem;
 import reborncore.common.powerSystem.RcEnergyTier;
@@ -43,6 +47,9 @@ import techreborn.utils.ToolsUtil;
 import java.util.Random;
 
 public class JackhammerItem extends PickaxeItem implements RcEnergyItem {
+
+	public static final TagKey<Block> SKIPPED_BY_JACKHAMMER = TagKey.of(Registry.BLOCK_KEY, new Identifier(TechReborn.MOD_ID, "skipped_by_jackhammer"));
+
 	public final int maxCharge;
 	public final RcEnergyTier tier;
 	public final int cost;

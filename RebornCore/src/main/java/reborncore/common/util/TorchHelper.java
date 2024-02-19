@@ -38,7 +38,7 @@ public class TorchHelper {
 	public static ActionResult placeTorch(ItemUsageContext itemUsageContext) {
 		PlayerEntity player = itemUsageContext.getPlayer();
 		if (player == null) {
-			return ActionResult.FAIL;
+			return ActionResult.PASS;
 		}
 
 		for (int i = 0; i < player.getInventory().main.size(); i++) {
@@ -62,6 +62,6 @@ public class TorchHelper {
 				return ActionResult.SUCCESS;
 			}
 		}
-		return ActionResult.FAIL;
+		return ActionResult.PASS;
 	}
 }
