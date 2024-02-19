@@ -1,0 +1,46 @@
+name: Bug Report
+description: Create a bug report for Tech Reborn FIDIM.
+labels: [ bug ]
+body:
+    -   type: input
+        attributes:
+            label: Minecraft version
+            placeholder: e.g. 1.18.2
+        validations:
+            required: true
+    -   type: input
+            attributes:
+                label: Tech Reborn version
+                placeholder: e.g. 5.2.2
+            validations:
+                required: true
+    -   type: textarea
+        attributes:
+            label: Describe the bug/issue
+            description: A clear and concise description of what the bug is.
+        validations:
+            required: true
+    -   type: textarea
+        attributes:
+            label: Reproducing
+            description: Steps to reproduce the behavior.
+            placeholder: |
+                1. Place '...'
+                2. Insert '...'
+                3. Crash
+    -   type: textarea
+        attributes:
+            label: Expected behavior
+            description: A clear and concise description of what you expected to happen.
+    -   type: textarea
+        attributes:
+            label: Screenshots
+            description: If applicable, add screenshots to help explain your problem.
+    -   type: textarea
+        attributes:
+            label: Game logs
+            description: Send a link to the https://pastebin.com/, https://mclo.gs/, or similar, with the game log `logs/latest.log` or the crash log.
+    -   type: textarea
+        attributes:
+            label: Additional context
+            description: Insert some additional context regarding the issue.
