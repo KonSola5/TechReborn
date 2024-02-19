@@ -17,9 +17,7 @@ body:
     -   type: textarea
         attributes:
             label: Which fix was not implemented?
-            description: |
-            You can link to the original Tech Reborn's issue tracker or commit history. |
-            Please note that fixes regarding machines/blocks/items that weren't introduced in later Minecraft versions won't be implemented.
+            description: You can link to the original Tech Reborn's issue tracker or commit history. Please note that fixes regarding machines/blocks/items that weren't introduced in later Minecraft versions won't be implemented.
         validations:
             required: true
     -   type: textarea
