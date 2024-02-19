@@ -9,11 +9,11 @@ body:
         validations:
             required: true
     -   type: input
-            attributes:
-                label: Tech Reborn version
-                placeholder: e.g. 5.2.2
-            validations:
-                required: true
+        attributes:
+            label: Tech Reborn version
+            placeholder: e.g. 5.2.2
+        validations:
+            required: true
     -   type: textarea
         attributes:
             label: Describe the bug/issue
