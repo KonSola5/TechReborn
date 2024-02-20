@@ -274,8 +274,7 @@ public class RollingMachineBlockEntity extends PowerAcceptorBlockEntity
 				bestSlot = Pair.of(slot, slotStack.getCount());
 			}
 		}
-		if (bestSlot == null
-				|| bestSlot.getLeft() == balanceSlot
+		if (bestSlot.getLeft() == balanceSlot
 				|| bestSlot.getRight() == sourceStack.getCount()
 				|| inventory.getStack(bestSlot.getLeft()).isEmpty()
 				|| !ItemUtils.isItemEqual(sourceStack, inventory.getStack(bestSlot.getLeft()), true, true)) {

@@ -29,6 +29,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import reborncore.RebornCore;
 import techreborn.config.TechRebornConfig;
@@ -39,38 +40,58 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class ToolTipAssistUtils {
 
 	// Colour constants
-	private static final Formatting instructColour = Formatting.BLUE;
+	private static final Formatting INSTRUCTION_COLOR = Formatting.BLUE;
 
-	private static final Formatting infoColour = Formatting.GOLD;
-	private static final Formatting statColour = Formatting.GOLD;
+	private static final Formatting INFO_COLOR = Formatting.GOLD;
+	private static final Formatting STAT_COLOR = Formatting.GRAY;
 
-	private static final Formatting posColour = Formatting.GREEN;
-	private static final Formatting negColour = Formatting.RED;
+	private static final Formatting POSITIVE_COLOR = Formatting.GREEN;
+	private static final Formatting NEGATIVE_COLOR = Formatting.RED;
 
 	public static double SPEED_CAP = 97.5;
+
 	public static List<Text> getUpgradeStats(TRContent.Upgrades upgradeType, int count, boolean shiftHeld) {
 		List<Text> tips = new ArrayList<>();
 		boolean shouldStackCalculate = count > 1;
 
 		switch (upgradeType) {
 			case OVERCLOCKER -> {
-				tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.speed_increase"), calculateSpeed(-TechRebornConfig.overclockerSpeed * 100, count, shiftHeld), "%", true));
-				tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.energy_increase"), calculateEnergyIncrease(TechRebornConfig.overclockerPower + 1, count, shiftHeld), "x", false));
+				tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.speed_increase"),
+					calculateSpeed(-TechRebornConfig.overclockerSpeed * 100, count, shiftHeld),
+					"%",
+					"",
+					true));
+				tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.energy_increase"),
+					calculateEnergyIncrease(TechRebornConfig.overclockerPower + 1, count, shiftHeld),
+					"x",
+					"",
+					false));
 			}
 			case TRANSFORMER -> shouldStackCalculate = false;
-			case ENERGY_STORAGE -> tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.storage_increase"), calculateValue(TechRebornConfig.energyStoragePower, count, shiftHeld), " E", true));
-			case SUPERCONDUCTOR -> tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.flow_increase"), calculateValue(Math.pow(2, (TechRebornConfig.superConductorCount + 2)) * 100, count, shiftHeld), "%", true));
+			case ENERGY_STORAGE ->
+				tips.add(
+					getStatStringUnit(
+						I18n.translate("techreborn.tooltip.upgrade.storage_increase"),
+						calculateValue(TechRebornConfig.energyStoragePower, count, shiftHeld),
+						" E",
+						"+",
+						true));
+			case SUPERCONDUCTOR ->
+				tips.add(getStatStringUnit(I18n.translate("techreborn.tooltip.upgrade.flow_increase"),
+					calculateValue(Math.pow(2, (TechRebornConfig.superConductorCount + 2)) + 1, count, shiftHeld),
+					"x",
+					"",
+					true));
 		}
 
 		// Add reminder that they can use shift to calculate the entire stack
 		if (shouldStackCalculate && !shiftHeld) {
-			tips.add(new LiteralText(instructColour + I18n.translate("techreborn.tooltip.stack_info")));
+			tips.add(new LiteralText(INSTRUCTION_COLOR + I18n.translate("techreborn.tooltip.stack_info")));
 		}
 
 		return tips;
@@ -89,10 +110,10 @@ public class ToolTipAssistUtils {
 				String[] infoLines = info.split("\\r?\\n");
 
 				for (String infoLine : infoLines) {
-					list.add(1, new LiteralText(infoColour + infoLine));
+					list.add(1, new LiteralText(INFO_COLOR + infoLine));
 				}
 			} else {
-				list.add(new LiteralText(instructColour + I18n.translate("techreborn.tooltip.more_info")));
+				list.add(new TranslatableText("techreborn.tooltip.more_info").formatted(INSTRUCTION_COLOR));
 			}
 		}
 	}
@@ -134,9 +155,16 @@ public class ToolTipAssistUtils {
 		return calculatedVal;
 	}
 
-	private static Text getStatStringUnit(String text, double value, String unit, boolean isPositive) {
+	private static Text getStatStringUnit(String text, double value, String unit, String prefix, boolean isPositive) {
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(RebornCore.locale); // Always use dot
 		NumberFormat formatter = new DecimalFormat("##.##", symbols); // Round to 2 decimal places
-		return new LiteralText(statColour + text + ": " + ((isPositive) ? posColour : negColour) + formatter.format(value) + unit);
+		return new LiteralText(text)
+			.append(": ")
+			.formatted(STAT_COLOR)
+			.append(
+				new LiteralText(formatter.format(value))
+					.append(unit)
+					.formatted(((isPositive) ? POSITIVE_COLOR : NEGATIVE_COLOR))
+			);
 	}
 }

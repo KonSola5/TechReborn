@@ -79,7 +79,7 @@ public class StackToolTipHandler implements ItemTooltipCallback {
 				double outputRate = energyItem.getEnergyMaxOutput();
 				MutableText line3 = new LiteralText("").formatted(Formatting.GRAY);
 				if (inputRate != 0 && inputRate == outputRate){
-					line3.append(I18n.translate("reborncore.tooltip.transferRate"));
+					line3.append(I18n.translate("reborncore.tooltip.energy.transferRate"));
 					line3.append(": ");
 					line3.append(new LiteralText(PowerSystem.getLocalizedPower(inputRate)).formatted(Formatting.GOLD));
 				}

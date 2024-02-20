@@ -405,10 +405,10 @@ public class MachineBaseBlockEntity extends BlockEntity implements BlockEntityTi
 	public void addInfo(List<Text> info, boolean isReal, boolean hasData) {
 		if (hasData) {
 			if (getOptionalInventory().isPresent()) {
-				info.add(new LiteralText(Formatting.GOLD + "" + getOptionalInventory().get().getContents() + Formatting.GRAY + " items"));
+				info.add(new LiteralText(Formatting.GOLD + "" + getOptionalInventory().get().getContents() + new LiteralText(Formatting.GRAY + " items")));
 			}
 			if (!upgradeInventory.isEmpty()) {
-				info.add(new LiteralText(Formatting .GOLD + "" + upgradeInventory.getContents() + Formatting .GRAY + " upgrades"));
+				info.add(new LiteralText(Formatting .GOLD + "" + upgradeInventory.getContents() + new LiteralText(Formatting.GRAY + " items")));
 			}
 		}
 	}
